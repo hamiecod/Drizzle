@@ -30,8 +30,6 @@ function replaceVal(tempVal, orgVal, res) {
 }
 
 app.get('/404', (req,res)=>{
-  // console.log(path.join(__dirname, '404.html'))
-  // res.sendFile(fs.readFileSync(path.join(__dirname, '404.html'), 'utf-8'));
   res.sendFile('404.html',{ root: "C:\\Users\\abc\\Documents\\Web-Development\\projects\\Drizzle\\src"});
 });
 
@@ -43,12 +41,10 @@ app.get("/", (req, res) => {
       const objdata = JSON.parse(chunk);
       const arrData = [objdata];
       console.log(arrData);
-      // console.log(arrData[0].main.temp);
       const realTimeData = arrData
         .map((val) => replaceVal(homeFile, val))
         .join("");
       res.write(realTimeData);
-      // console.log(realTimeData);
     })
     .on("end", (err) => {
       if (err) return console.log("connection closed due to errors", err);
@@ -67,12 +63,10 @@ app.post("/", (req, res) => {
       const objdata = JSON.parse(chunk);
       const arrData = [objdata];
       console.log(arrData);
-      // console.log(arrData[0].main.temp);
       const realTimeData = arrData
         .map((val) => replaceVal(homeFile, val))
         .join("");
       res.write(realTimeData);
-      // console.log(realTimeData);
     })
     .on("end", (err) => {
       if (err) return console.log("connection closed due to errors", err);
