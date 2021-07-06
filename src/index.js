@@ -13,7 +13,6 @@ app.use('/src', express.static('src'));
 const homeFile = fs.readFileSync(path.join(__dirname, "home.html"), "utf-8");
 
 function replaceVal(tempVal, orgVal, res) {
-  console.log(orgVal);
   if (orgVal.main == undefined) {
     console.log("dealing with 404 error");
     res.redirect('/404');
@@ -54,7 +53,6 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
   city = req.body.search;
-  console.log(city);
   requests(
     `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.APIKEY}`
   )
