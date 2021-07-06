@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
       res.write(realTimeData);
     })
     .on("end", (err) => {
-      // if (err) return console.log("connection closed due to errors", err);
+      if (err) return console.log("connection closed due to errors", err);
       res.end();
     });
 });
@@ -56,13 +56,14 @@ app.post("/", (req, res) => {
   )
     .on("data", (chunk) => {
       const objdata = JSON.parse(chunk);
+      const arrData = [objdata];
       const realTimeData = arrData
         .map((val) => replaceVal(homeFile, val))
         .join("");
       res.write(realTimeData);
     })
     .on("end", (err) => {
-      // if (err) return console.log("connection closed due to errors", err);
+      if (err) return console.log("connection closed due to errors", err);
       res.end();
     });
 });
