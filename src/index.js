@@ -8,13 +8,13 @@ const app = express();
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/src', express.static('src'));
+app.use("/src", express.static("src"));
 
 const homeFile = fs.readFileSync(path.join(__dirname, "home.html"), "utf-8");
 
 function replaceVal(tempVal, orgVal, res) {
   if (orgVal.main == undefined) {
-    res.redirect('/404');
+    res.redirect("/404");
   } else {
     let temperature = tempVal.replace("{%tempval%}", orgVal.main.temp);
     temperature = temperature.replace("{%tempmin%}", orgVal.main.temp_min);
@@ -27,8 +27,10 @@ function replaceVal(tempVal, orgVal, res) {
   }
 }
 
-app.get('/404', (req,res)=>{
-  res.sendFile('404.html',{ root: "C:\\Users\\abc\\Documents\\Web-Development\\projects\\Drizzle\\src"});
+app.get("/404", (req, res) => {
+  res.sendFile("404.html", {
+    root: "C:\\Users\\abc\\Documents\\Web-Development\\projects\\Drizzle\\src",
+  });
 });
 
 app.get("/", (req, res) => {
@@ -71,6 +73,6 @@ app.post("/", (req, res) => {
 var host = process.env.LOCAL_ADDRESS;
 var port = process.env.PORT;
 
-app.listen((port || 3000), host, ()=>{
+app.listen(port || 3000, host, () => {
   console.log(`server connected at http://${host}:${port}`);
 });
