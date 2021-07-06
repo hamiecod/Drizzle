@@ -14,7 +14,7 @@ const homeFile = fs.readFileSync(path.join(__dirname, "home.html"), "utf-8");
 
 function replaceVal(tempVal, orgVal, res) {
   console.log(orgVal);
-  console.log(res);
+  // console.log(res);
   if (orgVal.main == undefined) {
     console.log("dealing with 404 error");
     res.redirect('/404');
@@ -63,7 +63,7 @@ app.post("/", (req, res) => {
   city = req.body.search;
   console.log(city);
   requests(
-    `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=6f26950ec72532c023d60f1f0f0ccbfe`
+    `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.APIKEY}`
   )
     .on("data", (chunk) => {
       const objdata = JSON.parse(chunk);
@@ -75,7 +75,7 @@ app.post("/", (req, res) => {
         .map((val) => replaceVal(homeFile, val, res))
         .join("");
       res.write(realTimeData);
-      // console.log(realTimeData);
+      console.log(realTimeData);
     })
     .on("end", (err) => {
       if (err) return console.log("connection closed due to errors", err);
