@@ -35,7 +35,7 @@ app.get('/404', (req,res)=>{
 
 app.get("/", (req, res) => {
   requests(
-    `http://api.openweathermap.org/data/2.5/weather?q=Mohali&units=metric&appid=6f26950ec72532c023d60f1f0f0ccbfe`
+    `http://api.openweathermap.org/data/2.5/weather?q=Mohali&units=metric&appid=${process.env.APIKEY}`
   )
     .on("data", (chunk) => {
       const objdata = JSON.parse(chunk);
@@ -52,12 +52,11 @@ app.get("/", (req, res) => {
     });
 });
 
-// search implementation
 app.post("/", (req, res) => {
   city = req.body.search;
   console.log(city);
   requests(
-    `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=6f26950ec72532c023d60f1f0f0ccbfe`
+    `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.APIKEY}`
   )
     .on("data", (chunk) => {
       const objdata = JSON.parse(chunk);
@@ -69,7 +68,7 @@ app.post("/", (req, res) => {
       res.write(realTimeData);
     })
     .on("end", (err) => {
-      if (err) return console.log("connection closed due to errors", err);
+      // if (err) return console.log("connection closed due to errors", err);
       res.end();
     });
 });
@@ -77,6 +76,4 @@ app.post("/", (req, res) => {
 var host = "127.0.0.1";
 var port = 8000;
 
-app.listen(port, host, () => {
-  console.log(`server running at http://${host}:${port}`);
-});
+app.listen(port, host);
