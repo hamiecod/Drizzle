@@ -14,6 +14,7 @@ const homeFile = fs.readFileSync(path.join(__dirname, "home.html"), "utf-8");
 
 function replaceVal(tempVal, orgVal, res) {
   console.log(orgVal);
+  console.log(res);
   if (orgVal.main == undefined) {
     console.log("dealing with 404 error");
     res.redirect('/404');
@@ -37,15 +38,16 @@ app.get('/404', (req,res)=>{
 
 app.get("/", (req, res) => {
   requests(
-    `http://api.openweathermap.org/data/2.5/weather?q=Mohali&units=metric&appid=6f26950ec72532c023d60f1f0f0ccbfe`
+    `http://api.openweathermap.org/data/2.5/weather?q=Mohali&units=metric&appid=${process.env.APIKEY}`
   )
     .on("data", (chunk) => {
       const objdata = JSON.parse(chunk);
       const arrData = [objdata];
       console.log(arrData);
       // console.log(arrData[0].main.temp);
+      // console.log(res);
       const realTimeData = arrData
-        .map((val) => replaceVal(homeFile, val))
+        .map((val) => replaceVal(homeFile, val, res))
         .join("");
       res.write(realTimeData);
       // console.log(realTimeData);
@@ -68,8 +70,9 @@ app.post("/", (req, res) => {
       const arrData = [objdata];
       console.log(arrData);
       // console.log(arrData[0].main.temp);
+      console.log(res);
       const realTimeData = arrData
-        .map((val) => replaceVal(homeFile, val))
+        .map((val) => replaceVal(homeFile, val, res))
         .join("");
       res.write(realTimeData);
       // console.log(realTimeData);
