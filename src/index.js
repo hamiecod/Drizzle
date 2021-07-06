@@ -14,7 +14,6 @@ const homeFile = fs.readFileSync(path.join(__dirname, "home.html"), "utf-8");
 
 function replaceVal(tempVal, orgVal, res) {
   if (orgVal.main == undefined) {
-    console.log("dealing with 404 error");
     res.redirect('/404');
   } else {
     let temperature = tempVal.replace("{%tempval%}", orgVal.main.temp);
@@ -39,14 +38,13 @@ app.get("/", (req, res) => {
     .on("data", (chunk) => {
       const objdata = JSON.parse(chunk);
       const arrData = [objdata];
-      console.log(arrData);
       const realTimeData = arrData
         .map((val) => replaceVal(homeFile, val))
         .join("");
       res.write(realTimeData);
     })
     .on("end", (err) => {
-      if (err) return console.log("connection closed due to errors", err);
+      // if (err) return console.log("connection closed due to errors", err);
       res.end();
     });
 });
@@ -58,8 +56,6 @@ app.post("/", (req, res) => {
   )
     .on("data", (chunk) => {
       const objdata = JSON.parse(chunk);
-      const arrData = [objdata];
-      console.log(arrData);
       const realTimeData = arrData
         .map((val) => replaceVal(homeFile, val))
         .join("");
