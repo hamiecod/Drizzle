@@ -68,9 +68,9 @@ app.post("/", (req, res) => {
     });
 });
 
-var host = "localhost";
-var port = 5000;
+var host = process.env.LOCAL_ADDRESS;
+var port = process.env.PORT;
 
-app.listen(port, host, ()=>{
+app.listen((port || 3000), host, ()=>{
   console.log(`server connected at http://${host}:${port}`);
 });
